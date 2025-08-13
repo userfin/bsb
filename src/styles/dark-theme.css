@@ -1,0 +1,23 @@
+:root {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --accent: #bb86fc;
+  --card-bg: #252525;
+  --modal-bg: rgba(0, 0, 0, 0.85);
+}
+
+.venue-card {
+  background: var(--card-bg);
+  border: 1px solid #333;
+}
+
+.modal-backdrop {
+  background: var(--modal-bg);
+}
+
+.modal-content {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
