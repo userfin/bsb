@@ -13,6 +13,9 @@
   --spacing-xl: 64px;
   --border-radius: 12px;
   --transition: all 0.3s ease;
+
+  /* ширина карточки (увеличил) */
+  --card-width: 360px;
 }
 
 html, body {
@@ -104,19 +107,38 @@ html, body {
   flex-grow: 1;
 }
 
+/* FLEX-сетка: центрирует и полные, и неполные ряды */
 .venue-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--spacing-md);
-  margin-top: var(--spacing-lg);
+  justify-content: center;                 /* центрируем строки */
+  margin: var(--spacing-lg) auto 0;
+  max-width: calc(var(--card-width) * 3 + var(--spacing-md) * 2); /* максимум 3 в ряд */
+}
+
+/* 2 в ряд на средних экранах */
+@media (max-width: 1100px) {
+  .venue-grid {
+    max-width: calc(var(--card-width) * 2 + var(--spacing-md));  /* 2 карточки + 1 промежуток */
+  }
+}
+
+/* 1 в ряд на телефонах */
+@media (max-width: 740px) {
+  .venue-grid {
+    max-width: var(--card-width);
+  }
 }
 
 .venue-card {
+  display: block;
+  width: var(--card-width);                /* увеличенный размер */
   border-radius: var(--border-radius);
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  aspect-ratio: 1/1;
+  aspect-ratio: 1 / 1;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
@@ -271,10 +293,6 @@ html, body {
   
   .slogan h1 {
     font-size: 3rem;
-  }
-  
-  .venue-grid {
-    gap: var(--spacing-lg);
   }
 }
 
