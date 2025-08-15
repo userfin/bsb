@@ -1,21 +1,19 @@
 import React from 'react';
-import LandingPage from './pages/LandingPage';
 import { CityProvider } from './components/city/CityContext';
+import LandingPage from './pages/LandingPage';
 import Footer from './components/layout/Footer';
 import CookieBanner from './components/layout/CookieBanner';
-import './styles/main.css';
-import './styles/dark-theme.css';
 
-function App() {
+const App = () => {
   return (
     <CityProvider>
-      <div className="app-container">
+      <div id="app">
         <LandingPage />
         <Footer />
-        <CookieBanner /> {/* Добавлено */}
+        <CookieBanner />
       </div>
     </CityProvider>
   );
-}
+};
 
 export default App;

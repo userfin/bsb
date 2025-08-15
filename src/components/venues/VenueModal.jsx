@@ -1,146 +1,242 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaImage, FaUtensils, FaInfoCircle, FaDownload } from 'react-icons/fa';
-import { fadeIn, scaleUp } from '../ui/animations';
 import CloseButton from '../ui/CloseButton';
+import {
+  FiInfo,
+  FiImage,
+  FiFileText,
+  FiDownload,
+  FiPhone,
+  FiMapPin,
+  FiClock,
+  FiGlobe,
+} from 'react-icons/fi';
 
-const GalleryTab = ({ images }) => {
-  return (
-    <div className="gallery-grid">
-      {images.map((img, index) => (
-        <div key={index} className="gallery-item">
-          <div 
-            className="gallery-image" 
-            style={{ backgroundImage: `url(${img})` }}
-          />
-        </div>
-      ))}
-    </div>
-  );
+const TABS = {
+  INFO: 'info',
+  GALLERY: 'gallery',
+  MENU: 'menu',
 };
 
-const MenuTab = ({ pdfUrl }) => {
-  return (
-    <div className="menu-container">
-      <div className="pdf-preview">
-        <div className="pdf-placeholder">
-          <FaUtensils className="pdf-icon" />
-          <p>Меню заведения</p>
-        </div>
-      </div>
-      <a 
-        href={pdfUrl} 
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="download-button"
-      >
-        <FaDownload /> Скачать меню (PDF)
-      </a>
-    </div>
-  );
-};
+export default function VenueModal({ isOpen, onClose, venue }) {
+  const backdropRef = useRef(null);
+  const [activeTab, setActiveTab] = useState(TABS.INFO);
 
-const InfoTab = ({ venue }) => {
-  return (
-    <div className="info-tab">
-      <div className="modal-header">
-        <h2>{venue.name}</h2>
-        <p>{venue.location}</p>
-      </div>
-      
-      <div className="modal-body">
-        <img src={venue.image} alt={venue.name} />
-        <div className="venue-details">
-          <p>{venue.description}</p>
-          
-          <div className="details-grid">
-            <div className="detail-item">
-              <span>Часы работы:</span>
-              <strong>{venue.hours}</strong>
-            </div>
-            <div className="detail-item">
-              <span>Телефон:</span>
-              <strong>{venue.phone}</strong>
-            </div>
-            <div className="detail-item">
-              <span>Особенности:</span>
-              <div className="features">
-                {venue.features.map((feature, index) => (
-                  <span key={index} className="feature-tag">{feature}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose?.();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
 
-const VenueModal = ({ venue, isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState('info');
-  
-  if (!venue) return null;
+  useEffect(() => {
+    if (isOpen) setActiveTab(TABS.INFO);
+  }, [isOpen]);
+
+  if (!isOpen || !venue) return null;
+
+  const {
+    name,
+    shortDescription,
+    description,
+    image,
+    city,
+    location,
+    hours,
+    phone,
+    website,
+    features,
+    gallery = [],
+    // новое поле для превью меню-картинки (необязательно)
+    menuImage,       // например: '/menus/bakery-menu.jpg'
+    // старое поле — ссылка на PDF (если есть)
+    menuPdf,         // например: '/menus/bakery-menu.pdf'
+  } = venue;
+
+  const hasMenuImage = Boolean(menuImage);
+  const hasMenuPdf = Boolean(menuPdf);
+
+  const handleBackdropClick = (e) => {
+    if (e.target === backdropRef.current) onClose?.();
+  };
 
   return (
     <AnimatePresence>
-      {isOpen && (
-        <motion.div 
-          className="modal-backdrop"
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-          variants={fadeIn}
-          onClick={onClose}
+      <motion.div
+        className="modal-backdrop"
+        ref={backdropRef}
+        onMouseDown={handleBackdropClick}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <motion.div
+          className="modal-content"
+          role="dialog"
+          aria-modal="true"
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.22 }}
         >
-          <motion.div 
-            className="modal-content"
-            variants={scaleUp}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <CloseButton onClick={onClose} />
-            
-            {/* Заголовок модального окна */}
-            <div className="modal-header">
-              <h2>{venue.name}</h2>
-              <p>{venue.location}</p>
+          <CloseButton onClick={onClose} />
+
+          {/* Верхняя панель: заголовок + вкладки в одну строку */}
+          <div className="modal-bar">
+            <div className="modal-titlegroup">
+              <h2 className="modal-title">{name}</h2>
+              {shortDescription && (
+                <p className="modal-subtitle">{shortDescription}</p>
+              )}
             </div>
-            
-            {/* Стилизованные вкладки */}
+
             <div className="modal-tabs">
-              <button 
-                className={`tab-button ${activeTab === 'info' ? 'active' : ''}`}
-                onClick={() => setActiveTab('info')}
+              <button
+                className={`tab-button ${activeTab === TABS.INFO ? 'active' : ''}`}
+                onClick={() => setActiveTab(TABS.INFO)}
               >
-                <FaInfoCircle /> <span>Информация</span>
+                <FiInfo /> Информация
               </button>
-              <button 
-                className={`tab-button ${activeTab === 'gallery' ? 'active' : ''}`}
-                onClick={() => setActiveTab('gallery')}
+              <button
+                className={`tab-button ${activeTab === TABS.GALLERY ? 'active' : ''}`}
+                onClick={() => setActiveTab(TABS.GALLERY)}
               >
-                <FaImage /> <span>Галерея</span>
+                <FiImage /> Галерея
               </button>
-              <button 
-                className={`tab-button ${activeTab === 'menu' ? 'active' : ''}`}
-                onClick={() => setActiveTab('menu')}
+              <button
+                className={`tab-button ${activeTab === TABS.MENU ? 'active' : ''}`}
+                onClick={() => setActiveTab(TABS.MENU)}
               >
-                <FaUtensils /> <span>Меню</span>
+                <FiFileText /> Меню
               </button>
             </div>
-            
-            {/* Контент вкладок с прокруткой */}
-            <div className="tab-content-scrollable">
-              <div className="tab-content">
-                {activeTab === 'info' && <InfoTab venue={venue} />}
-                {activeTab === 'gallery' && <GalleryTab images={venue.gallery} />}
-                {activeTab === 'menu' && <MenuTab pdfUrl={venue.menuPdf} />}
+          </div>
+
+          {/* Контент вкладок */}
+          <div className="tab-content-area">
+            {/* INFO */}
+            {activeTab === TABS.INFO && (
+              <div className="modal-body info-layout">
+                <div className="info-media">
+                  <div
+                    className="info-hero-image"
+                    style={{
+                      backgroundImage: `url(${image || ''})`,
+                    }}
+                    aria-label="Главное изображение"
+                  />
+                </div>
+
+                <div className="info-details tab-content-scrollable">
+                  {!!description && (
+                    <div className="venue-details">
+                      <p>{description}</p>
+                    </div>
+                  )}
+
+                  <div className="details-grid">
+                    {city && (
+                      <div className="detail-item">
+                        <span><FiMapPin /></span>
+                        <strong>{city}{location ? ` — ${location}` : ''}</strong>
+                      </div>
+                    )}
+                    {!city && location && (
+                      <div className="detail-item">
+                        <span><FiMapPin /></span>
+                        <strong>{location}</strong>
+                      </div>
+                    )}
+                    {hours && (
+                      <div className="detail-item">
+                        <span><FiClock /></span>
+                        <strong>{hours}</strong>
+                      </div>
+                    )}
+                    {phone && (
+                      <div className="detail-item">
+                        <span><FiPhone /></span>
+                        <strong><a href={`tel:${phone}`} className="link-inline">{phone}</a></strong>
+                      </div>
+                    )}
+                    {website && (
+                      <div className="detail-item">
+                        <span><FiGlobe /></span>
+                        <strong><a href={website} target="_blank" rel="noreferrer" className="link-inline">Перейти на сайт</a></strong>
+                      </div>
+                    )}
+                  </div>
+
+                  {Array.isArray(features) && features.length > 0 && (
+                    <div className="features">
+                      {features.map((f, i) => (
+                        <span key={i} className="feature-tag">{f}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </motion.div>
+            )}
+
+            {/* GALLERY */}
+            {activeTab === TABS.GALLERY && (
+              <div className="tab-content-scrollable">
+                <div className="gallery-grid">
+                  {gallery.length > 0 ? (
+                    gallery.map((src, i) => (
+                      <div className="gallery-item" key={i}>
+                        <div
+                          className="gallery-image"
+                          style={{ backgroundImage: `url(${src})` }}
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <div className="empty-state">
+                      <p>Галерея пока пустая.</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* MENU (только картинка + кнопка скачать PDF) */}
+            {activeTab === TABS.MENU && (
+              <div className="tab-content-scrollable">
+                <div className="menu-container">
+                  {hasMenuImage ? (
+                    <div className="menu-image-wrap">
+                      {/* Используем обычный <img>, чтобы не было браузерных панелей управления */}
+                      <img
+                        className="menu-image"
+                        src={menuImage}
+                        alt="Меню"
+                        loading="lazy"
+                      />
+                    </div>
+                  ) : (
+                    <div className="placeholder-card">
+                      <p className="muted">Изображение меню недоступно.</p>
+                    </div>
+                  )}
+
+                  {hasMenuPdf && (
+                    <a
+                      className="download-button"
+                      href={menuPdf}
+                      download
+                    >
+                      <FiDownload /> Скачать PDF
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </motion.div>
-      )}
+      </motion.div>
     </AnimatePresence>
   );
-};
-
-export default VenueModal;
+}
