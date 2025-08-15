@@ -17,7 +17,11 @@
   --spacing-xl: 64px;
 
   --border-radius: 12px;
-  --transition: all 0.3s ease;
+
+  /* motion */
+  --easing: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* ограничиваем переходы только на дешёвые свойства */
+  --transition: transform .25s var(--easing), opacity .25s var(--easing), color .2s var(--easing), background-color .2s var(--easing), border-color .2s var(--easing), filter .25s var(--easing);
 
   /* Dark theme */
   --bg-primary: #121212;
@@ -50,7 +54,7 @@ html, body {
 a {
   color: var(--accent);
   text-decoration: none;
-  transition: color .25s ease;
+  transition: color .25s var(--easing);
 }
 a:hover { color: var(--accent-2); }
 
@@ -74,48 +78,29 @@ a:hover { color: var(--accent-2); }
   padding: var(--spacing-lg) 0;
   position: relative;
   z-index: 10;
+  text-align: center;               /* центрируем всё в шапке */
 }
-
-/* центрируем шапку и контент геро */
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
 .logo {
   font-size: 1.8rem;
   font-weight: 700;
   letter-spacing: -0.5px;
   margin-bottom: var(--spacing-md);
+  text-align: center;               /* центр логотипа */
 }
-/* само лого по центру */
-.logo {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+.slogan {
+  text-align: center;               /* центр заголовков и подзаголовка */
 }
-
 .slogan h1 {
   font-size: 2.5rem;
   margin-bottom: var(--spacing-sm);
   line-height: 1.2;
   letter-spacing: -0.5px;
 }
-.slogan {
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
 .slogan p {
   font-size: 1.1rem;
   color: var(--text-secondary);
   max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;                   /* чтобы подзаголовок не прилипал слева */
 }
 
 .hero-section {
@@ -151,6 +136,7 @@ a:hover { color: var(--accent-2); }
   font-size: 0.95rem;
   font-weight: 600;
   backdrop-filter: blur(4px);
+  will-change: transform, color, background-color, border-color;
 }
 .city-button:hover {
   border-color: transparent;
@@ -185,14 +171,10 @@ a:hover { color: var(--accent-2); }
 }
 
 @media (max-width: 1100px) {
-  .venue-grid {
-    max-width: calc(var(--card-width) * 2 + var(--spacing-md));
-  }
+  .venue-grid { max-width: calc(var(--card-width) * 2 + var(--spacing-md)); }
 }
 @media (max-width: 740px) {
-  .venue-grid {
-    max-width: var(--card-width);
-  }
+  .venue-grid { max-width: var(--card-width); }
 }
 
 .venue-card {
@@ -205,12 +187,16 @@ a:hover { color: var(--accent-2); }
   aspect-ratio: 1 / 1;
   background: var(--card-bg);
   border: 1px solid var(--border);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  /* лёгкая статичная тень (не анимируем box-shadow) */
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+  transition: var(--transition);
+  will-change: transform, filter;
+  transform: translateZ(0);
 }
 .venue-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 44px rgba(0,0,0,0.35), var(--glow);
+  /* вместо тяжёлого box-shadow на hover используем drop-shadow */
+  filter: drop-shadow(0 12px 22px rgba(0,0,0,0.35));
   border-color: rgba(255,255,255,0.14);
 }
 
@@ -218,7 +204,8 @@ a:hover { color: var(--accent-2); }
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: transform .35s ease;
+  transition: transform .35s var(--easing);
+  will-change: transform;
 }
 .venue-card:hover .card-image { transform: scale(1.04); }
 
@@ -251,7 +238,8 @@ a:hover { color: var(--accent-2); }
   z-index: 1000;
   padding: var(--spacing-md);
   background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
+  /* blur оставляем, но не анимируем */
+  backdrop-filter: blur(4px);
 }
 
 .modal-content {
@@ -263,16 +251,20 @@ a:hover { color: var(--accent-2); }
   padding: var(--spacing-lg);
   background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
   border: 1px solid var(--border);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.55);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  animation: scaleUp .28s ease forwards;
-}
 
-@keyframes scaleUp {
-  from { transform: scale(.96); opacity: 0; }
-  to   { transform: scale(1);   opacity: 1; }
+  /* GPU-friendly появление */
+  transform: translateY(14px) scale(.98);
+  opacity: 0;
+  transition: transform .28s var(--easing), opacity .28s var(--easing);
+  will-change: transform, opacity;
+}
+.modal-content.show {              /* добавляй/снимай класс через JS/Framer */
+  transform: translateY(0) scale(1);
+  opacity: 1;
 }
 
 .close-button {
@@ -289,9 +281,10 @@ a:hover { color: var(--accent-2); }
   color: var(--text-primary);
   font-size: 1.1rem;
   cursor: pointer;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(2px);
   z-index: 1001;
-  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+  transition: transform .2s var(--easing), background-color .2s var(--easing), border-color .2s var(--easing);
+  will-change: transform;
 }
 .close-button:hover {
   background: rgba(255,255,255,0.12);
@@ -302,6 +295,7 @@ a:hover { color: var(--accent-2); }
 .modal-header {
   margin-bottom: var(--spacing-md);
   padding-right: 48px;
+  text-align: center;               /* центр внутри модалки */
 }
 .modal-header h2 {
   font-size: 1.9rem;
@@ -317,6 +311,7 @@ a:hover { color: var(--accent-2); }
 /* Tabs (Info / Gallery / Menu) */
 .modal-tabs {
   display: flex;
+  justify-content: center;          /* центрируем табы */
   gap: 10px;
   margin-bottom: 12px;
   border-bottom: 1px solid var(--border);
@@ -335,16 +330,15 @@ a:hover { color: var(--accent-2); }
   padding: 8px 12px;
   border-radius: 10px;
   position: relative;
-  transition: color .2s ease, background .2s ease, transform .2s ease;
+  transition: var(--transition);
+  will-change: transform, color, background-color;
 }
 .tab-button:hover {
   color: #fff;
   background: rgba(255,255,255,0.06);
   transform: translateY(-1px);
 }
-.tab-button.active {
-  color: #fff;
-}
+.tab-button.active { color: #fff; }
 .tab-button.active::after {
   content: "";
   position: absolute;
@@ -387,7 +381,8 @@ a:hover { color: var(--accent-2); }
   border-radius: 14px;
   aspect-ratio: 16/9;
   object-fit: cover;
-  box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+  /* переносим тень на drop-shadow (GPU) */
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.35));
 }
 
 .venue-details p {
@@ -429,9 +424,7 @@ a:hover { color: var(--accent-2); }
 
 /* Two columns on wider screens for Info tab body */
 @media (min-width: 768px) {
-  .info-tab .modal-body {
-    grid-template-columns: 1.1fr 1fr;
-  }
+  .info-tab .modal-body { grid-template-columns: 1.1fr 1fr; }
 }
 
 /* ===============================
@@ -458,12 +451,13 @@ a:hover { color: var(--accent-2); }
   overflow: hidden;
   background: var(--card-bg);
   border: 1px solid var(--border);
-  box-shadow: 0 8px 26px rgba(0,0,0,0.28);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.28);    /* статичная лёгкая тень */
+  transition: var(--transition);
+  will-change: transform, filter, border-color;
 }
 .gallery-item:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 40px rgba(0,0,0,0.4), var(--glow);
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.38));
   border-color: rgba(255,255,255,0.14);
 }
 .gallery-image {
@@ -471,7 +465,8 @@ a:hover { color: var(--accent-2); }
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: transform .35s ease;
+  transition: transform .35s var(--easing);
+  will-change: transform;
 }
 .gallery-item:hover .gallery-image { transform: scale(1.04); }
 
@@ -492,7 +487,7 @@ a:hover { color: var(--accent-2); }
   min-height: 240px;
   display: grid;
   place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
 }
 
 .pdf-placeholder {
@@ -520,7 +515,8 @@ a:hover { color: var(--accent-2); }
   border: none;
   cursor: pointer;
   box-shadow: var(--glow);
-  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+  transition: transform .2s var(--easing), filter .2s var(--easing);
+  will-change: transform, filter;
 }
 .download-button:hover {
   transform: translateY(-2px);
@@ -542,7 +538,7 @@ a:hover { color: var(--accent-2); }
   box-shadow: 0 14px 40px rgba(0,0,0,0.5);
   z-index: 1000;
   border: 1px solid var(--border);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px); /* поменьше blur */
 }
 .cookie-content p {
   margin-bottom: var(--spacing-md);
@@ -581,17 +577,13 @@ a:hover { color: var(--accent-2); }
   border: none;
   box-shadow: var(--glow);
 }
-.cookie-button.accept:hover {
-  filter: brightness(1.05);
-}
+.cookie-button.accept:hover { filter: brightness(1.05); }
 .cookie-button.decline {
   background: transparent;
   color: var(--text-secondary);
   border: 1px solid var(--border);
 }
-.cookie-button.decline:hover {
-  background: rgba(255,255,255,0.06);
-}
+.cookie-button.decline:hover { background: rgba(255,255,255,0.06); }
 
 @media (max-width: 480px) {
   .cookie-banner {
@@ -599,6 +591,24 @@ a:hover { color: var(--accent-2); }
     right: 20px;
     max-width: none;
   }
+}
+
+/* ===============================
+   FOOTER
+   =============================== */
+.footer,
+.site-footer,
+footer {
+  text-align: center;               /* фикс: центрируем */
+  margin-top: auto;
+  padding: var(--spacing-md) 0;
+  color: var(--text-secondary);
+}
+.footer p,
+.site-footer p,
+footer p {
+  font-size: 0.9rem;
+  opacity: 0.9;
 }
 
 /* ===============================
@@ -610,12 +620,13 @@ a:hover { color: var(--accent-2); }
   margin-top: var(--spacing-lg);
   margin-bottom: var(--spacing-md);
   letter-spacing: -0.2px;
-  text-align: center; /* центр секционных заголовков */
+  text-align: center;               /* заголовки секций по центру */
 }
 
 /* ===============================
-   ANIMATIONS
+   ANIMATIONS (helpers)
    =============================== */
+/* если где-то используется fadeIn через классы */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -669,13 +680,16 @@ a:hover { color: var(--accent-2); }
 .info-icon {
   margin-right: 8px;
   font-size: 0.95rem;
-  color: var(--accent);
+  color: var(--accent); 
 }
 
-footer,
-.site-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+/* ===============================
+   ACCESSIBILITY: REDUCE MOTION
+   =============================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
