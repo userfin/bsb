@@ -7,9 +7,12 @@ const CloseButton = ({ onClick }) => {
     <motion.button 
       className="close-button"
       onClick={onClick}
-      whileHover={{ rotate: 90 }}
+      whileHover={{ rotate: 90, scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       aria-label="Закрыть"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.2 }}
     >
       <FaTimes />
     </motion.button>
