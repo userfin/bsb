@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaClock } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaClock, FaPhone } from 'react-icons/fa';
 
 const VenueCard = ({ venue, onClick }) => {
   return (
@@ -11,19 +11,28 @@ const VenueCard = ({ venue, onClick }) => {
       onClick={() => onClick(venue)}
     >
       <div className="card-image" style={{ backgroundImage: `url(${venue.image})` }} />
+
       <div className="card-content">
-        <h3>{venue.name}</h3>
-        <p className="card-description">{venue.shortDescription}</p>
-        
-        <div className="venue-info">
-          <div className="info-item">
-            <FaMapMarkerAlt className="info-icon" />
-            <span>{venue.location}</span>
-          </div>
+        <div className="card-top">
+          <h3>{venue.name}</h3>
+          <p className="card-description">{venue.shortDescription}</p>
           <div className="info-item">
             <FaClock className="info-icon" />
             <span>{venue.hours}</span>
           </div>
+        </div>
+
+        <div className="card-bottom">
+          <div className="info-item">
+            <FaMapMarkerAlt className="info-icon" />
+            <span>{venue.location}</span>
+          </div>
+          {venue.phone && (
+            <div className="info-item">
+              <FaPhone className="info-icon" />
+              <span>{venue.phone}</span>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

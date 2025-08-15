@@ -1,42 +1,29 @@
-/* ===============================
-   GLOBAL RESET & THEME
-   =============================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 :root {
   --container-width: 1200px;
-
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 32px;
   --spacing-xl: 64px;
-
   --border-radius: 12px;
   --transition: all 0.25s ease;
-
-  /* Dark theme */
-  --bg-primary: #121212;
+  --bg-primary: #000000;
   --bg-secondary: #181a1f;
   --card-bg: rgba(255,255,255,0.04);
-
   --text-primary: #e6e6e6;
   --text-secondary: #a6aab3;
-
   --border: rgba(255,255,255,0.08);
-
-  /* Accents */
   --accent: #ff6a00;
   --accent-2: #ff3c00;
   --accent-gradient: linear-gradient(135deg, #ff6a00, #ff3c00);
   --glow: 0 0 18px rgba(255, 80, 0, 0.35);
-
-  /* Cards */
-  --card-width: 360px;
+  --card-width: 380px;
 }
 
 html, body {
@@ -67,9 +54,6 @@ a:hover { color: var(--accent-2); }
   padding: 0 var(--spacing-md);
 }
 
-/* ===============================
-   HEADER / HERO
-   =============================== */
 .header {
   padding: var(--spacing-lg) 0;
   position: relative;
@@ -78,7 +62,7 @@ a:hover { color: var(--accent-2); }
 }
 
 .logo {
-  font-size: 1.8rem;
+  font-size: 3.5rem;
   font-weight: 700;
   letter-spacing: -0.5px;
   margin-bottom: var(--spacing-md);
@@ -87,29 +71,26 @@ a:hover { color: var(--accent-2); }
 
 .slogan { text-align: center; }
 .slogan h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: var(--spacing-sm);
   line-height: 1.2;
   letter-spacing: -0.5px;
 }
 .slogan p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--text-secondary);
   max-width: 700px;
   margin: 0 auto;
 }
 
 .hero-section {
-  padding: var(--spacing-lg) 0;
+  padding: var(--spacing-sm) 0;
   text-align: center;
   position: relative;
 }
 
-/* ===============================
-   CITY SLIDER
-   =============================== */
 .city-slider {
-  margin: var(--spacing-lg) auto;
+  margin: var(--spacing-sm) auto;
   max-width: 800px;
 }
 
@@ -128,7 +109,7 @@ a:hover { color: var(--accent-2); }
   padding: 10px 16px;
   border-radius: 999px;
   cursor: pointer;
-  transition: var(--transition);
+  transition: background-color .25s ease, border-color .25s ease, opacity .25s ease;
   font-size: 0.95rem;
   font-weight: 600;
   backdrop-filter: blur(4px);
@@ -138,7 +119,7 @@ a:hover { color: var(--accent-2); }
   background: var(--accent-gradient);
   color: #121212;
   box-shadow: var(--glow);
-  transform: translateY(-1px);
+  opacity: 0.96;
 }
 .city-button.active {
   background: var(--accent-gradient);
@@ -147,11 +128,8 @@ a:hover { color: var(--accent-2); }
   box-shadow: var(--glow);
 }
 
-/* ===============================
-   VENUE GRID
-   =============================== */
 .venue-grid-section {
-  padding: var(--spacing-lg) 0 var(--spacing-xl);
+  padding: var(--spacing-md) 0 var(--spacing-md);
   flex-grow: 1;
 }
 
@@ -160,7 +138,7 @@ a:hover { color: var(--accent-2); }
   flex-wrap: wrap;
   gap: var(--spacing-md);
   justify-content: center;
-  margin: var(--spacing-lg) auto 0;
+  margin: var(--spacing-md) auto 0;
   max-width: calc(var(--card-width) * 3 + var(--spacing-md) * 2);
 }
 
@@ -178,47 +156,75 @@ a:hover { color: var(--accent-2); }
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 4.2;
   background: var(--card-bg);
   border: 1px solid var(--border);
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-  will-change: transform, box-shadow;
+  transition: opacity .25s ease, box-shadow .25s ease, border-color .25s ease, background-color .25s ease;
+  will-change: opacity, box-shadow;
 }
 .venue-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 16px 44px rgba(0,0,0,0.35), var(--glow);
   border-color: rgba(255,255,255,0.14);
+  opacity: 0.98;
 }
 
 .card-image {
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: transform .35s ease;
+  transition: opacity .35s ease;
 }
-.venue-card:hover .card-image { transform: scale(1.04); }
+.venue-card:hover .card-image { opacity: 0.97; }
 
 .card-content {
   position: absolute;
-  inset: auto 0 0 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.75) 100%);
+  inset: 0;
   padding: var(--spacing-md);
   color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.75) 100%);
 }
-.card-content h3 {
-  margin-bottom: 4px;
+
+.card-top {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.card-top h3 {
+  margin-bottom: 2px;
   font-size: 1.15rem;
   letter-spacing: -0.2px;
 }
-.card-content p {
-  font-size: 0.92rem;
+
+.card-description {
+  font-size: 0.9rem;
   opacity: 0.9;
 }
 
-/* ===============================
-   MODAL — общие
-   =============================== */
+.info-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.info-icon {
+  margin-right: 8px;
+  font-size: 0.95rem;
+  color: var(--accent);
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -246,7 +252,6 @@ a:hover { color: var(--accent-2); }
   flex-direction: column;
 }
 
-/* Кнопка закрытия — не наезжает на вкладки */
 .close-button,
 .close-btn {
   position: absolute;
@@ -266,7 +271,7 @@ a:hover { color: var(--accent-2); }
   cursor: pointer;
   backdrop-filter: blur(4px);
   z-index: 1001;
-  transition: transform .2s ease, background .2s ease, border-color .2s ease, opacity .2s ease;
+  transition: background .2s ease, border-color .2s ease, opacity .2s ease;
   appearance: none;
   -webkit-appearance: none;
 }
@@ -274,17 +279,15 @@ a:hover { color: var(--accent-2); }
 .close-btn:hover {
   background: rgba(255,255,255,0.12);
   border-color: rgba(255,255,255,0.16);
-  transform: translateY(-1px);
+  opacity: 0.95;
 }
 .close-button:active,
-.close-btn:active { transform: translateY(0); opacity: 0.9; }
+.close-btn:active { opacity: 0.9; }
 .close-button:focus-visible,
 .close-btn:focus-visible { outline: 2px solid rgba(255,106,0,0.6); outline-offset: 2px; }
 .close-button svg,
 .close-btn svg { width: 20px; height: 20px; pointer-events: none; }
 
-/* Шапка модалки: заголовок + вкладки в одну строку.
-   Делаем отступ справа под кнопку закрытия, чтобы не наезжало. */
 .modal-bar {
   display: flex;
   align-items: center;
@@ -293,11 +296,10 @@ a:hover { color: var(--accent-2); }
   border-bottom: 1px solid var(--border);
   padding-bottom: 8px;
   min-height: 52px;
-  padding-right: 72px; /* место под close-button */
+  padding-right: 72px;
   justify-content: space-between;
 }
 
-/* На очень узких экранах вкладки могут переноситься, зато не уедут под кнопку */
 @media (max-width: 560px) {
   .modal-bar { flex-wrap: wrap; gap: 8px; padding-right: 56px; }
   .close-button, .close-btn { top: 10px; right: 10px; width: 36px; height: 36px; }
@@ -344,12 +346,12 @@ a:hover { color: var(--accent-2); }
   padding: 8px 12px;
   border-radius: 10px;
   position: relative;
-  transition: color .2s ease, background .2s ease, transform .2s ease;
+  transition: color .2s ease, background .2s ease, opacity .2s ease;
 }
 .tab-button:hover {
   color: #fff;
   background: rgba(255,255,255,0.06);
-  transform: translateY(-1px);
+  opacity: 0.96;
 }
 .tab-button.active { color: #fff; }
 .tab-button.active::after {
@@ -364,7 +366,6 @@ a:hover { color: var(--accent-2); }
   box-shadow: var(--glow);
 }
 
-/* Тело модалки */
 .tab-content-area {
   flex: 1 1 auto;
   min-height: 0;
@@ -386,10 +387,6 @@ a:hover { color: var(--accent-2); }
   border-radius: 8px;
 }
 
-/* ===============================
-   INFO TAB — картинка во всю высоту (desktop),
-   но адекватная на мобилках (не "сжимается смешно")
-   =============================== */
 .info-layout {
   height: 100%;
   min-height: 0;
@@ -399,8 +396,8 @@ a:hover { color: var(--accent-2); }
 }
 @media (max-width: 900px) {
   .info-layout {
-    display: block;        /* одна колонка */
-    height: auto;          /* отпускаем высоту */
+    display: block;
+    height: auto;
   }
 }
 
@@ -417,8 +414,6 @@ a:hover { color: var(--accent-2); }
   box-shadow: 0 8px 28px rgba(0,0,0,0.35);
 }
 
-/* На планшетах/мобилках показываем картинку с фиксированным соотношением,
-   чтобы не становилась плоской лентой */
 @media (max-width: 900px) {
   .info-media { height: auto; }
   .info-hero-image {
@@ -465,9 +460,6 @@ a:hover { color: var(--accent-2); }
   border: 1px solid rgba(255,106,0,0.25);
 }
 
-/* ===============================
-   GALLERY TAB
-   =============================== */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -490,25 +482,22 @@ a:hover { color: var(--accent-2); }
   background: var(--card-bg);
   border: 1px solid var(--border);
   box-shadow: 0 8px 26px rgba(0,0,0,0.28);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  transition: opacity .25s ease, box-shadow .25s ease, border-color .25s ease, background-color .25s ease;
 }
 .gallery-item:hover {
-  transform: translateY(-3px);
   box-shadow: 0 14px 40px rgba(0,0,0,0.4), var(--glow);
   border-color: rgba(255,255,255,0.14);
+  opacity: 0.98;
 }
 .gallery-image {
   width: 100%;
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: transform .35s ease;
+  transition: opacity .35s ease;
 }
-.gallery-item:hover .gallery-image { transform: scale(1.04); }
+.gallery-item:hover .gallery-image { opacity: 0.97; }
 
-/* ===============================
-   MENU TAB (картинка + скачать PDF)
-   =============================== */
 .menu-container {
   display: grid;
   grid-template-columns: 1fr;
@@ -556,13 +545,10 @@ a:hover { color: var(--accent-2); }
   border: none;
   cursor: pointer;
   box-shadow: var(--glow);
-  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+  transition: box-shadow .2s ease, filter .2s ease, opacity .2s ease;
 }
-.download-button:hover { transform: translateY(-2px); filter: brightness(1.05); }
+.download-button:hover { filter: brightness(1.05); opacity: 0.98; }
 
-/* ===============================
-   COOKIE BANNER
-   =============================== */
 .cookie-banner {
   position: fixed;
   bottom: 20px;
@@ -596,14 +582,14 @@ a:hover { color: var(--accent-2); }
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  transition: var(--transition);
+  transition: background-color .25s ease, border-color .25s ease, opacity .25s ease;
   border: 1px solid var(--border);
   background: rgba(255,255,255,0.04);
   color: var(--text-primary);
 }
 .cookie-button:hover {
   background: rgba(255,255,255,0.08);
-  transform: translateY(-1px);
+  opacity: 0.96;
 }
 .cookie-button.accept {
   background: var(--accent-gradient);
@@ -611,21 +597,18 @@ a:hover { color: var(--accent-2); }
   border: none;
   box-shadow: var(--glow);
 }
-.cookie-button.accept:hover { filter: brightness(1.05); }
+.cookie-button.accept:hover { filter: brightness(1.05); opacity: 0.98; }
 .cookie-button.decline {
   background: transparent;
   color: var(--text-secondary);
   border: 1px solid var(--border);
 }
-.cookie-button.decline:hover { background: rgba(255,255,255,0.06); }
+.cookie-button.decline:hover { background: rgba(255,255,255,0.06); opacity: 0.96; }
 
 @media (max-width: 480px) {
   .cookie-banner { left: 20px; right: 20px; max-width: none; }
 }
 
-/* ===============================
-   UTILS / TITLES / LINKS
-   =============================== */
 .section-title {
   font-size: 1.35rem;
   font-weight: 700;
@@ -636,9 +619,6 @@ a:hover { color: var(--accent-2); }
 .link-inline { color: var(--text-primary); text-decoration: underline; }
 .link-inline:hover { color: #fff; }
 
-/* ===============================
-   ANIMATIONS (бережно)
-   =============================== */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.001ms !important;
@@ -648,16 +628,10 @@ a:hover { color: var(--accent-2); }
   }
 }
 
-/* ===============================
-   RESPONSIVE TYPOGRAPHY
-   =============================== */
 @media (min-width: 768px) {
-  .slogan h1 { font-size: 3rem; }
+  .slogan h1 { font-size: 2rem; }
 }
 
-/* ===============================
-   FOOTER (центрируем)
-   =============================== */
 footer, .site-footer {
   display: block;
   text-align: center;
@@ -670,9 +644,6 @@ footer, .site-footer {
   gap: var(--spacing-sm);
 }
 
-/* ===============================
-   LEGACY CLASSES (compat)
-   =============================== */
 .venue-details ul {
   list-style: none;
   display: flex;
@@ -686,29 +657,4 @@ footer, .site-footer {
   border-radius: 999px;
   font-size: 0.9rem;
   border: 1px solid var(--border);
-}
-
-.card-content .card-description {
-  font-size: 0.9rem;
-  opacity: 0.9;
-  margin-bottom: 10px;
-}
-
-.venue-info {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-top: 10px;
-}
-.info-item {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-  opacity: 0.9;
-  color: var(--text-secondary);
-}
-.info-icon {
-  margin-right: 8px;
-  font-size: 0.95rem;
-  color: var(--accent);
 }

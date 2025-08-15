@@ -15,11 +15,6 @@ const LandingPage = () => {
       
       <main>
         <section className="hero-section">
-          <div className="slogan">
-            <h1>Лучшие заведения города</h1>
-            <p>Откройте для себя уникальные места в вашем городе</p>
-          </div>
-          
           <CitySlider />
         </section>
         
