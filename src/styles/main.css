@@ -12,7 +12,6 @@
   --spacing-lg: 32px;
   --spacing-xl: 64px;
   --border-radius: 12px;
-  --transition: all 0.25s ease;
   --bg-primary: #000000;
   --bg-secondary: #181a1f;
   --card-bg: rgba(255,255,255,0.04);
@@ -40,7 +39,6 @@ html, body {
 a {
   color: var(--accent);
   text-decoration: none;
-  transition: color .25s ease;
 }
 a:hover { color: var(--accent-2); }
 
@@ -112,7 +110,6 @@ a:hover { color: var(--accent-2); }
   padding: 10px 16px;
   border-radius: 999px;
   cursor: pointer;
-  transition: background-color .25s ease, border-color .25s ease, opacity .25s ease;
   font-size: 0.95rem;
   font-weight: 300;
   backdrop-filter: blur(4px);
@@ -163,11 +160,9 @@ a:hover { color: var(--accent-2); }
   background: var(--card-bg);
   border: 1px solid var(--border);
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  transition: opacity .25s ease, box-shadow .25s ease, border-color .25s ease, background-color .25s ease;
-  will-change: opacity, box-shadow;
+  transition: opacity .15s linear; /* единственная анимация (лёгкая) */
 }
 .venue-card:hover {
-  box-shadow: 0 16px 44px rgba(0,0,0,0.35), var(--glow);
   border-color: rgba(255,255,255,0.14);
   opacity: 0.98;
 }
@@ -176,7 +171,7 @@ a:hover { color: var(--accent-2); }
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: opacity .35s ease;
+  transition: opacity .15s linear; /* лёгкая анимация на изображении карточки */
 }
 .venue-card:hover .card-image { opacity: 0.97; }
 
@@ -290,7 +285,6 @@ a:hover { color: var(--accent-2); }
   cursor: pointer;
   backdrop-filter: blur(4px);
   z-index: 1001;
-  transition: background .2s ease, border-color .2s ease, opacity .2s ease;
   appearance: none;
   -webkit-appearance: none;
 }
@@ -369,8 +363,6 @@ a:hover { color: var(--accent-2); }
   cursor: pointer;
   padding: 8px 12px;
   border-radius: 16px;
-  position: relative;
-  transition: color .2s ease, background .2s ease, opacity .2s ease;
 }
 .tab-button:hover {
   color: #fff;
@@ -512,21 +504,14 @@ a:hover { color: var(--accent-2); }
   background: var(--card-bg);
   border: 1px solid var(--border);
   box-shadow: 0 8px 26px rgba(0,0,0,0.28);
-  transition: opacity .25s ease, box-shadow .25s ease, border-color .25s ease, background-color .25s ease;
 }
-.gallery-item:hover {
-  box-shadow: 0 14px 40px rgba(0,0,0,0.4), var(--glow);
-  border-color: rgba(255,255,255,0.14);
-  opacity: 0.98;
-}
+
 .gallery-image {
   width: 100%;
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: opacity .35s ease;
 }
-.gallery-item:hover .gallery-image { opacity: 0.97; }
 
 .menu-container {
   display: grid;
@@ -575,7 +560,6 @@ a:hover { color: var(--accent-2); }
   border: none;
   cursor: pointer;
   box-shadow: var(--glow);
-  transition: box-shadow .2s ease, filter .2s ease, opacity .2s ease;
 }
 .download-button:hover { filter: brightness(1.05); opacity: 0.98; }
 
@@ -612,7 +596,6 @@ a:hover { color: var(--accent-2); }
   border-radius: 30px;
   font-weight: 400;
   cursor: pointer;
-  transition: background-color .25s ease, border-color .25s ease, opacity .25s ease;
   border: 1px solid var(--border);
   background: rgba(255,255,255,0.04);
   color: var(--text-primary);
