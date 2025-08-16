@@ -26,6 +26,8 @@
   --card-text-max: 55%;
   --modal-pad: 28px;
   --tab-underline: rgba(255,106,0,0.22);
+  /* NEW: используем фиксированную высоту панели вкладок на мобилках */
+  --modal-bar-height: 60px;
 }
 
 html, body {
@@ -53,6 +55,7 @@ a:hover { color: var(--accent-2); }
   max-width: var(--container-width);
   margin: 0 auto;
   padding: 0 var(--spacing-md);
+  flex: 1 0 auto;
 }
 
 .header {
@@ -160,7 +163,7 @@ a:hover { color: var(--accent-2); }
   background: var(--card-bg);
   border: 1px solid var(--border);
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  transition: opacity .15s linear; /* единственная анимация (лёгкая) */
+  transition: opacity .15s linear;
 }
 .venue-card:hover {
   border-color: rgba(255,255,255,0.14);
@@ -171,7 +174,7 @@ a:hover { color: var(--accent-2); }
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: opacity .15s linear; /* лёгкая анимация на изображении карточки */
+  transition: opacity .15s linear;
 }
 .venue-card:hover .card-image { opacity: 0.97; }
 
@@ -255,15 +258,15 @@ a:hover { color: var(--accent-2); }
   position: relative;
   width: 96vw;
   height: 90vh;
-  max-width: 1400px;
+  max-width: 2000px;
   border-radius: 30px;
   padding: var(--modal-pad);
   background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
   border: 1px solid var(--border);
   box-shadow: 0 30px 80px rgba(0,0,0,0.55);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .close-button,
@@ -313,6 +316,21 @@ a:hover { color: var(--accent-2); }
   justify-content: space-between;
 }
 
+@media (max-width: 900px) {
+  .modal-bar {
+    position: sticky;
+    top: 0;
+    z-index: 200;            
+    background: #181a1f;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  }
+
+  /* КЛЮЧ: даём контенту запас сверху, равный высоте панели */
+  .tab-content-area {
+    padding-top: var(--spacing-md);
+  }
+}
+
 @media (max-width: 560px) {
   .modal-bar { flex-wrap: wrap; gap: 8px; padding-right: 56px; }
   .close-button, .close-btn {
@@ -345,6 +363,9 @@ a:hover { color: var(--accent-2); }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+@media (max-width: 560px) {
+  .modal-subtitle { display: none; }
+}
 
 .modal-tabs {
   display: flex;
@@ -363,6 +384,7 @@ a:hover { color: var(--accent-2); }
   cursor: pointer;
   padding: 8px 12px;
   border-radius: 16px;
+  position: relative;
 }
 .tab-button:hover {
   color: #fff;
@@ -370,22 +392,14 @@ a:hover { color: var(--accent-2); }
   opacity: 0.96;
 }
 .tab-button.active { color: #fff; }
-.tab-button.active::after {
-  content: "";
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  bottom: -9px;
-  height: 3px;
-  border-radius: 3px;
-  background: var(--tab-underline);
-}
+.tab-button.active::after { display: none; }
 
 .tab-content-area {
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
+  z-index: 1;
 }
 
 .tab-content-scrollable {
@@ -395,13 +409,7 @@ a:hover { color: var(--accent-2); }
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.tab-content-scrollable::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  background: transparent;
-}
-.tab-content-scrollable::-webkit-scrollbar-thumb { background: transparent; }
-.tab-content-scrollable::-webkit-scrollbar-track { background: transparent; }
+.tab-content-scrollable::-webkit-scrollbar { display: none; }
 
 .info-layout {
   height: 100%;
@@ -416,6 +424,9 @@ a:hover { color: var(--accent-2); }
     height: auto;
   }
 }
+@media (max-width: 480px) {
+  .info-media { display: none; }
+}
 
 .info-media {
   min-height: 0;
@@ -428,18 +439,6 @@ a:hover { color: var(--accent-2); }
   background-size: cover;
   background-position: center;
   box-shadow: 0 8px 28px rgba(0,0,0,0.35);
-}
-
-@media (max-width: 900px) {
-  .info-media { height: auto; }
-  .info-hero-image {
-    height: auto;
-    aspect-ratio: 16 / 9;
-    min-height: 220px;
-  }
-}
-@media (max-width: 420px) {
-  .info-hero-image { aspect-ratio: 4 / 3; min-height: 200px; }
 }
 
 .info-details {
@@ -504,6 +503,7 @@ a:hover { color: var(--accent-2); }
   background: var(--card-bg);
   border: 1px solid var(--border);
   box-shadow: 0 8px 26px rgba(0,0,0,0.28);
+  z-index: 1;
 }
 
 .gallery-image {
