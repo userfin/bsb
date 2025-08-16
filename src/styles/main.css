@@ -269,7 +269,7 @@ a:hover { color: var(--accent-2); }
 .close-button,
 .close-btn {
   position: absolute;
-  top: calc(var(--modal-pad) + 6px);
+  top: calc(var(--modal-pad));
   right: var(--modal-pad);
   width: 40px;
   height: 40px;

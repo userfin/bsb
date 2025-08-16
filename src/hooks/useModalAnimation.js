@@ -19,7 +19,7 @@ const useModalAnimation = () => {
       setSelectedVenue(null);
       document.body.style.overflow = 'auto';
       setAnimationStage('closed');
-    }, 300);
+    }, 50);
   };
 
   // Запрет скролла при открытом модальном окне

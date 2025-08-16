@@ -1,9 +1,8 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
 const VenueCard = ({ venue, onClick }) => {
   return (
-    <motion.div 
+    <div 
       className="venue-card"
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.98 }}
@@ -31,7 +30,7 @@ const VenueCard = ({ venue, onClick }) => {
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
