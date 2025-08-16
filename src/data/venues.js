@@ -18,8 +18,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/restaurant1/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/restaurant1/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/restaurant1-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/restaurant1-menu.pdf'
   },
   {
     id: 2,
@@ -40,8 +40,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/bar1/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/bar1/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/bar1-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/bar1-menu.pdf'
   },
   {
     id: 3,
@@ -62,8 +62,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/cafe1/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/cafe1/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/cafe1-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/cafe1-menu.pdf'
   },
   {
     id: 4,
@@ -84,8 +84,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/tatar/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/tatar/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/tatar-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/tatar-menu.pdf'
   },
   {
     id: 5,
@@ -106,8 +106,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/beach/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/beach/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/beach-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/beach-menu.pdf'
   },
   {
     id: 6,
@@ -128,8 +128,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/bakery/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/bakery/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/bakery-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/bakery-menu.pdf'
   },
   {
     id: 7,
@@ -150,8 +150,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/steakhouse/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/steakhouse/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/steakhouse-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/steakhouse-menu.pdf'
   },
   {
     id: 8,
@@ -172,8 +172,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/coffee/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/coffee/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/coffee-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/coffee-menu.pdf'
   },
   {
     id: 9,
@@ -194,8 +194,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/fish/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/fish/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/fish-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/fish-menu.pdf'
   },
   {
     id: 10,
@@ -216,8 +216,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/beer/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/beer/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/beer-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/beer-menu.pdf'
   },
   {
     id: 11,
@@ -238,8 +238,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/vegan/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/vegan/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/vegan-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/vegan-menu.pdf'
   },
   {
     id: 12,
@@ -260,8 +260,8 @@ const venues = [
       process.env.PUBLIC_URL + '/images/sushi/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/sushi/gallery6.jpg'
     ],
-    menuImage: '/menus/restaurant1-menu.jpg',
-    menuPdf: '/menus/sushi-menu.pdf'
+    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuPdf: process.env.PUBLIC_URL + '/menus/sushi-menu.pdf'
   }
 ];
 
