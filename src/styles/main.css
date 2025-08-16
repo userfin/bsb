@@ -26,7 +26,6 @@
   --card-text-max: 55%;
   --modal-pad: 28px;
   --tab-underline: rgba(255,106,0,0.22);
-  /* NEW: используем фиксированную высоту панели вкладок на мобилках */
   --modal-bar-height: 60px;
 }
 
@@ -321,7 +320,7 @@ a:hover { color: var(--accent-2); }
     position: sticky;
     top: 0;
     z-index: 200;            
-    background: #181a1f;
+    background: transparent;
     box-shadow: 0 6px 18px rgba(0,0,0,0.35);
   }
 
