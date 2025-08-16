@@ -18,7 +18,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/restaurant1/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/restaurant1/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/restaurant1-menu.pdf'
   },
   {
@@ -40,7 +40,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/bar1/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/bar1/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/bar1-menu.pdf'
   },
   {
@@ -62,7 +62,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/cafe1/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/cafe1/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/cafe1-menu.pdf'
   },
   {
@@ -84,7 +84,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/tatar/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/tatar/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/tatar-menu.pdf'
   },
   {
@@ -106,7 +106,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/beach/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/beach/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/beach-menu.pdf'
   },
   {
@@ -128,7 +128,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/bakery/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/bakery/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/bakery-menu.pdf'
   },
   {
@@ -150,7 +150,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/steakhouse/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/steakhouse/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/steakhouse-menu.pdf'
   },
   {
@@ -172,7 +172,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/coffee/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/coffee/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/coffee-menu.pdf'
   },
   {
@@ -194,7 +194,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/fish/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/fish/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/fish-menu.pdf'
   },
   {
@@ -216,7 +216,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/beer/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/beer/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/beer-menu.pdf'
   },
   {
@@ -238,7 +238,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/vegan/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/vegan/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/vegan-menu.pdf'
   },
   {
@@ -260,7 +260,7 @@ const venues = [
       process.env.PUBLIC_URL + '/images/sushi/gallery5.jpg',
       process.env.PUBLIC_URL + '/images/sushi/gallery6.jpg'
     ],
-    menuImage: process.env.PUBLIC_URL + '/menus/restaurant1-menu.jpg',
+    menuImage: '/menus/restaurant1-menu.jpg',
     menuPdf: '/menus/sushi-menu.pdf'
   }
 ];
