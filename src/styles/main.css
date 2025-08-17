@@ -31,7 +31,6 @@
   --card-width: 380px;
   --card-text-max: 55%;
 
-  /* меньше внутренние поля в модалке */
   --modal-pad: 22px;
   --modal-bar-height: 60px;
 }
@@ -177,15 +176,20 @@ a:hover { color: var(--accent-2); }
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 16 / 7;
   background: var(--card-bg);
   border: 1px solid var(--border);
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  transition: opacity .15s linear; /* единственная анимация — только hover */
+  transition: opacity .15s linear;
 }
 .venue-card:hover {
   border-color: rgba(255,255,255,0.14);
   opacity: 0.98;
+}
+
+/* БОЛЕЕ ВЫСОКИЕ КАРТОЧКИ НА МЕЛКИХ ЭКРАНАХ */
+@media (max-width: 740px) {
+  .venue-card { aspect-ratio: 16 / 9; }
 }
 
 .card-image {
@@ -252,10 +256,11 @@ a:hover { color: var(--accent-2); }
   color: var(--accent);
 }
 
+/* МЕНЬШЕ ОТСТУПЫ НА МАЛЕНЬКИХ, ЧТОБЫ ТЕКСТ НЕ ВЫЕЗЖАЛ */
 @media (max-width: 480px) {
-  .card-content { padding: var(--spacing-lg) var(--spacing-md); }
-  .card-top { padding-top: var(--spacing-md); padding-bottom: var(--spacing-md); }
-  .card-bottom { padding-top: var(--spacing-md); padding-bottom: var(--spacing-md); }
+  .card-content { padding: var(--spacing-md) var(--spacing-md); }
+  .card-top { padding-top: var(--spacing-sm); padding-bottom: var(--spacing-sm); }
+  .card-bottom { padding-top: var(--spacing-sm); padding-bottom: var(--spacing-sm); }
   :root { --card-text-max: 80%; }
 }
 
@@ -277,7 +282,7 @@ a:hover { color: var(--accent-2); }
 .modal-content {
   position: relative;
   width: 96vw;
-  height: 90vh;
+  height: 85vh;
   max-width: 2000px;
   border-radius: 30px;
   padding: var(--modal-pad);
@@ -292,7 +297,6 @@ a:hover { color: var(--accent-2); }
 }
 .modal-content::-webkit-scrollbar { display: none; }
 
-/* кнопка закрытия — визуально в одном ряду с табами */
 .close-button,
 .close-btn {
   position: absolute;
@@ -328,7 +332,6 @@ a:hover { color: var(--accent-2); }
 .close-button svg,
 .close-btn svg { width: 20px; height: 20px; pointer-events: none; }
 
-/* верхняя панель модалки */
 .modal-bar {
   display: flex;
   align-items: center;
@@ -337,24 +340,23 @@ a:hover { color: var(--accent-2); }
   border-bottom: none;
   padding-bottom: 0;
   min-height: var(--modal-bar-height);
-  padding-right: 72px;            /* запас под кнопку закрытия справа */
-  padding-left: var(--modal-pad); /* чтобы текст не лип слева */
+  padding-right: 72px;
+  padding-left: var(--modal-pad);
   justify-content: space-between;
   flex-wrap: nowrap;
 }
 
-/* на маленьких — липкая шапка, кнопка остаётся в той же линии */
 @media (max-width: 900px) {
   .modal-bar {
     position: sticky;
     top: 0;
     z-index: 1100;
     background: transparent;
-    padding-right: 56px;     
+    padding-right: 56px;
     padding-left: var(--modal-pad);
     border-radius: 30px;
   }
- 
+
   .close-button, .close-btn {
     position: absolute;
     top: calc(var(--modal-pad) + (var(--modal-bar-height) - 40px) / 2);
@@ -396,10 +398,9 @@ a:hover { color: var(--accent-2); }
   white-space: nowrap;
 }
 @media (max-width: 560px) {
-  .modal-subtitle { display: none; } /* скрываем короткое описание на мелких */
+  .modal-subtitle { display: none; }
 }
 
-/* вкладки */
 .modal-tabs {
   display: flex;
   gap: 8px;
@@ -427,14 +428,13 @@ a:hover { color: var(--accent-2); }
   opacity: 0.96;
 }
 .tab-button.active { color: #fff; }
-.tab-button.active::after { display: none; } /* подчёркивание убрано */
+.tab-button.active::after { display: none; }
 
 @media (max-width: 560px) {
-  .tab-button { font-size: 0; padding: 8px; } /* показываем только иконки */
+  .tab-button { font-size: 0; padding: 8px; }
   .tab-button svg { width: 22px; height: 22px; }
 }
 
-/* тело модалки */
 .tab-content-area {
   flex: 1 1 auto;
   min-height: 0;
@@ -469,7 +469,7 @@ a:hover { color: var(--accent-2); }
   }
 }
 @media (max-width: 480px) {
-  .info-media { display: none; } /* скрываем картинку на очень маленьких */
+  .info-media { display: none; }
 }
 
 .info-media {
@@ -489,7 +489,7 @@ a:hover { color: var(--accent-2); }
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg); /* больше «воздуха» между блоками справа */
+  gap: var(--spacing-lg);
 }
 
 .venue-details p {
@@ -538,7 +538,7 @@ a:hover { color: var(--accent-2); }
   .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
-  .gallery-grid { grid-template-columns: 1fr; margin-bottom: var(--spacing-sm); } /* меньше пустоты снизу */
+  .gallery-grid { grid-template-columns: 1fr; margin-bottom: var(--spacing-sm); }
 }
 
 .gallery-item {
@@ -550,7 +550,7 @@ a:hover { color: var(--accent-2); }
   background: var(--card-bg);
   border: 1px solid var(--border);
   box-shadow: 0 8px 26px rgba(0,0,0,0.28);
-  z-index: 1; /* остаётся под шапкой */
+  z-index: 1;
 }
 .gallery-image {
   width: 100%;
@@ -580,7 +580,7 @@ a:hover { color: var(--accent-2); }
 }
 .menu-image {
   width: 100%;
-  height: auto;     /* сохраняем пропорции и растягиваем по ширине */
+  height: auto;
   display: block;
 }
 
@@ -715,7 +715,7 @@ footer, .site-footer {
   margin-top: auto;
 }
 .site-footer {
-  padding-top: var(--spacing-xl); /* заметный «воздух» над футером */
+  padding-top: var(--spacing-xl);
 }
 .site-footer .container {
   display: flex;
