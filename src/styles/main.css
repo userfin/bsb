@@ -11,27 +11,36 @@
   --spacing-md: 16px;
   --spacing-lg: 32px;
   --spacing-xl: 64px;
+
   --border-radius: 12px;
+
   --bg-primary: #000000;
   --bg-secondary: #181a1f;
   --card-bg: rgba(255,255,255,0.04);
+
   --text-primary: #e6e6e6;
   --text-secondary: #c6c9d1;
+
   --border: rgba(255,255,255,0.08);
+
   --accent: #ff6a00;
   --accent-2: #ff3c00;
   --accent-gradient: linear-gradient(135deg, #ff6a00, #ff3c00);
   --glow: 0 0 18px rgba(255, 80, 0, 0.35);
+
   --card-width: 380px;
   --card-text-max: 55%;
-  --modal-pad: 28px;
-  --tab-underline: rgba(255,106,0,0.22);
+
+  /* меньше внутренние поля в модалке */
+  --modal-pad: 22px;
   --modal-bar-height: 60px;
 }
 
 html, body {
   height: 100%;
-  background-color: var(--bg-primary);
+  background:
+    radial-gradient(1200px 1200px at 10% -10%, #0f1116 0%, #0a0c10 40%, #07080c 100%),
+    var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
@@ -57,6 +66,9 @@ a:hover { color: var(--accent-2); }
   flex: 1 0 auto;
 }
 
+/* ===============================
+   HEADER / HERO
+   =============================== */
 .header {
   padding: var(--spacing-lg) 0;
   position: relative;
@@ -92,6 +104,9 @@ a:hover { color: var(--accent-2); }
   position: relative;
 }
 
+/* ===============================
+   CITY SLIDER
+   =============================== */
 .city-slider {
   margin: var(--spacing-sm) auto;
   max-width: 800px;
@@ -130,6 +145,9 @@ a:hover { color: var(--accent-2); }
   box-shadow: var(--glow);
 }
 
+/* ===============================
+   VENUE GRID — всегда одна карточка в ряд
+   =============================== */
 .venue-grid-section {
   padding: var(--spacing-md) 0 var(--spacing-md);
   flex-grow: 1;
@@ -137,32 +155,33 @@ a:hover { color: var(--accent-2); }
 
 .venue-grid {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--spacing-md);
   justify-content: center;
   margin: var(--spacing-md) auto 0;
-  max-width: calc(var(--card-width) * 3 + var(--spacing-md) * 2);
+  max-width: var(--container-width);
+  width: 100%;
 }
 
 @media (max-width: 1100px) {
-  .venue-grid { max-width: calc(var(--card-width) * 2 + var(--spacing-md)); }
+  .venue-grid { max-width: var(--container-width); }
 }
 @media (max-width: 740px) {
-  .venue-grid { max-width: var(--card-width); }
+  .venue-grid { max-width: var(--container-width); }
 }
 
 .venue-card {
   display: block;
-  width: var(--card-width);
+  width: 100%;
   border-radius: 30px;
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  aspect-ratio: 3 / 4.2;
+  aspect-ratio: 3 / 2;
   background: var(--card-bg);
   border: 1px solid var(--border);
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  transition: opacity .15s linear;
+  transition: opacity .15s linear; /* единственная анимация — только hover */
 }
 .venue-card:hover {
   border-color: rgba(255,255,255,0.14);
@@ -186,7 +205,7 @@ a:hover { color: var(--accent-2); }
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-  background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.75) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.72) 100%);
 }
 
 .card-top,
@@ -197,7 +216,6 @@ a:hover { color: var(--accent-2); }
   align-items: center;
   gap: 8px;
 }
-
 .card-top { padding-top: var(--spacing-lg); padding-bottom: var(--spacing-lg); }
 .card-bottom { padding-top: var(--spacing-lg); padding-bottom: var(--spacing-lg); margin-top: auto; }
 
@@ -241,6 +259,9 @@ a:hover { color: var(--accent-2); }
   :root { --card-text-max: 80%; }
 }
 
+/* ===============================
+   MODAL
+   =============================== */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -266,12 +287,16 @@ a:hover { color: var(--accent-2); }
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+.modal-content::-webkit-scrollbar { display: none; }
 
+/* кнопка закрытия — визуально в одном ряду с табами */
 .close-button,
 .close-btn {
   position: absolute;
-  top: calc(var(--modal-pad));
+  top: calc(var(--modal-pad) + (var(--modal-bar-height) - 40px) / 2);
   right: var(--modal-pad);
   width: 40px;
   height: 40px;
@@ -286,7 +311,7 @@ a:hover { color: var(--accent-2); }
   line-height: 1;
   cursor: pointer;
   backdrop-filter: blur(4px);
-  z-index: 1001;
+  z-index: 1200;
   appearance: none;
   -webkit-appearance: none;
 }
@@ -303,38 +328,46 @@ a:hover { color: var(--accent-2); }
 .close-button svg,
 .close-btn svg { width: 20px; height: 20px; pointer-events: none; }
 
+/* верхняя панель модалки */
 .modal-bar {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 8px;
-  min-height: 52px;
-  padding-right: 72px;
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+  min-height: var(--modal-bar-height);
+  padding-right: 72px;            /* запас под кнопку закрытия справа */
+  padding-left: var(--modal-pad); /* чтобы текст не лип слева */
   justify-content: space-between;
+  flex-wrap: nowrap;
 }
 
+/* на маленьких — липкая шапка, кнопка остаётся в той же линии */
 @media (max-width: 900px) {
   .modal-bar {
     position: sticky;
     top: 0;
-    z-index: 200;            
+    z-index: 1100;
     background: transparent;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    padding-right: 56px;     
+    padding-left: var(--modal-pad);
+    border-radius: 30px;
   }
-
-  /* КЛЮЧ: даём контенту запас сверху, равный высоте панели */
+ 
+  .close-button, .close-btn {
+    position: absolute;
+    top: calc(var(--modal-pad) + (var(--modal-bar-height) - 40px) / 2);
+    right: var(--modal-pad);
+  }
   .tab-content-area {
-    padding-top: var(--spacing-md);
+    padding-top: var(--spacing-sm);
   }
 }
 
 @media (max-width: 560px) {
-  .modal-bar { flex-wrap: wrap; gap: 8px; padding-right: 56px; }
+  .modal-bar { gap: 8px; }
   .close-button, .close-btn {
-    top: calc(var(--modal-pad) + 2px);
-    right: var(--modal-pad);
     width: 36px;
     height: 36px;
   }
@@ -342,7 +375,7 @@ a:hover { color: var(--accent-2); }
 
 .modal-titlegroup {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 12px;
   flex: 1 1 auto;
   min-width: 0;
@@ -363,13 +396,15 @@ a:hover { color: var(--accent-2); }
   white-space: nowrap;
 }
 @media (max-width: 560px) {
-  .modal-subtitle { display: none; }
+  .modal-subtitle { display: none; } /* скрываем короткое описание на мелких */
 }
 
+/* вкладки */
 .modal-tabs {
   display: flex;
   gap: 8px;
   flex: 0 0 auto;
+  min-width: 0;
 }
 
 .tab-button {
@@ -384,6 +419,7 @@ a:hover { color: var(--accent-2); }
   padding: 8px 12px;
   border-radius: 16px;
   position: relative;
+  white-space: nowrap;
 }
 .tab-button:hover {
   color: #fff;
@@ -391,8 +427,14 @@ a:hover { color: var(--accent-2); }
   opacity: 0.96;
 }
 .tab-button.active { color: #fff; }
-.tab-button.active::after { display: none; }
+.tab-button.active::after { display: none; } /* подчёркивание убрано */
 
+@media (max-width: 560px) {
+  .tab-button { font-size: 0; padding: 8px; } /* показываем только иконки */
+  .tab-button svg { width: 22px; height: 22px; }
+}
+
+/* тело модалки */
 .tab-content-area {
   flex: 1 1 auto;
   min-height: 0;
@@ -410,6 +452,9 @@ a:hover { color: var(--accent-2); }
 }
 .tab-content-scrollable::-webkit-scrollbar { display: none; }
 
+/* ===============================
+   INFO TAB
+   =============================== */
 .info-layout {
   height: 100%;
   min-height: 0;
@@ -424,7 +469,7 @@ a:hover { color: var(--accent-2); }
   }
 }
 @media (max-width: 480px) {
-  .info-media { display: none; }
+  .info-media { display: none; } /* скрываем картинку на очень маленьких */
 }
 
 .info-media {
@@ -444,7 +489,7 @@ a:hover { color: var(--accent-2); }
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-lg); /* больше «воздуха» между блоками справа */
 }
 
 .venue-details p {
@@ -480,6 +525,9 @@ a:hover { color: var(--accent-2); }
   border: 1px solid rgba(255,106,0,0.25);
 }
 
+/* ===============================
+   GALLERY TAB
+   =============================== */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -490,7 +538,7 @@ a:hover { color: var(--accent-2); }
   .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 560px) {
-  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; margin-bottom: var(--spacing-sm); } /* меньше пустоты снизу */
 }
 
 .gallery-item {
@@ -502,9 +550,8 @@ a:hover { color: var(--accent-2); }
   background: var(--card-bg);
   border: 1px solid var(--border);
   box-shadow: 0 8px 26px rgba(0,0,0,0.28);
-  z-index: 1;
+  z-index: 1; /* остаётся под шапкой */
 }
-
 .gallery-image {
   width: 100%;
   height: 100%;
@@ -512,31 +559,34 @@ a:hover { color: var(--accent-2); }
   background-position: center;
 }
 
+/* ===============================
+   MENU TAB — изображение на всю ширину
+   =============================== */
 .menu-container {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing-md);
   margin-top: var(--spacing-md);
 }
-
 .menu-image-wrap {
-  border-radius: 30px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-  border: 1px solid var(--border);
-  min-height: 240px;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  border-radius: 20px;
+  background: none;
+  border: none;
+  min-height: 0;
+  display: block;
+  box-shadow: none;
   overflow: hidden;
+  padding: 0;
 }
-
 .menu-image {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: auto;     /* сохраняем пропорции и растягиваем по ширине */
   display: block;
 }
 
+/* ===============================
+   PLACEHOLDER / DOWNLOAD
+   =============================== */
 .placeholder-card {
   border-radius: 30px;
   border: 1px solid var(--border);
@@ -562,6 +612,9 @@ a:hover { color: var(--accent-2); }
 }
 .download-button:hover { filter: brightness(1.05); opacity: 0.98; }
 
+/* ===============================
+   COOKIE
+   =============================== */
 .cookie-banner {
   position: fixed;
   bottom: 20px;
@@ -621,6 +674,9 @@ a:hover { color: var(--accent-2); }
   .cookie-banner { left: 20px; right: 20px; max-width: none; }
 }
 
+/* ===============================
+   UTILS / TITLES / LINKS
+   =============================== */
 .section-title {
   font-size: 1.35rem;
   font-weight: 500;
@@ -631,6 +687,9 @@ a:hover { color: var(--accent-2); }
 .link-inline { color: var(--text-primary); text-decoration: underline; }
 .link-inline:hover { color: #fff; }
 
+/* ===============================
+   ACCESSIBILITY
+   =============================== */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.001ms !important;
@@ -640,14 +699,23 @@ a:hover { color: var(--accent-2); }
   }
 }
 
+/* ===============================
+   TYPOGRAPHY
+   =============================== */
 @media (min-width: 768px) {
   .slogan h1 { font-size: 2rem; }
 }
 
+/* ===============================
+   FOOTER — больше отступ сверху
+   =============================== */
 footer, .site-footer {
   display: block;
   text-align: center;
   margin-top: auto;
+}
+.site-footer {
+  padding-top: var(--spacing-xl); /* заметный «воздух» над футером */
 }
 .site-footer .container {
   display: flex;
@@ -656,6 +724,9 @@ footer, .site-footer {
   gap: var(--spacing-sm);
 }
 
+/* ===============================
+   LEGACY / COMPAT
+   =============================== */
 .venue-details ul {
   list-style: none;
   display: flex;
@@ -671,11 +742,6 @@ footer, .site-footer {
   border: 1px solid var(--border);
 }
 
-::selection {
-  background: var(--accent);
-  color: #121212;
-}
-::-moz-selection {
-  background: var(--accent);
-  color: #121212;
-}
+/* выделение текста */
+::selection { background: var(--accent); color: #121212; }
+::-moz-selection { background: var(--accent); color: #121212; }
