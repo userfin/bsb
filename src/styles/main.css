@@ -291,7 +291,7 @@ a:hover { color: var(--accent-2); }
   box-shadow: 0 30px 80px rgba(0,0,0,0.55);
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: hidden; /* <-- IMPORTANT: keep modal container fixed, inner area scrolls */
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -315,7 +315,7 @@ a:hover { color: var(--accent-2); }
   line-height: 1;
   cursor: pointer;
   backdrop-filter: blur(4px);
-  z-index: 1200;
+  z-index: 5000; /* выше панели вкладок, чтобы не «уезжала» за неё */
   appearance: none;
   -webkit-appearance: none;
 }
@@ -344,37 +344,50 @@ a:hover { color: var(--accent-2); }
   padding-left: var(--modal-pad);
   justify-content: space-between;
   flex-wrap: nowrap;
+  z-index: 3000;
 }
 
+/* MOBILE: sticky header that sits ABOVE the scrollable content and hides it */
 @media (max-width: 900px) {
   .modal-bar {
     position: sticky;
     top: 0;
-    z-index: 1100;
-    /* непрозрачный фон, чтобы контент не просвечивал сквозь заголовок при скролле */
-    background: #0b0d12;
+    z-index: 4000;  
+    background: transparent; 
     padding-right: 56px;
     padding-left: var(--modal-pad);
-    border-radius: 30px;
+    border-radius: 0; 
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04);
   }
 
-  /* единый скроллер — только модалка; внутренний скролл отключаем,
-     чтобы кнопка закрытия не «уезжала» относительно sticky-шапки */
+  /* Контент вкладок и внутренние области ниже по слою */
+  .tab-content-area,
+  .info-layout,
+  .info-media,
+  .info-hero-image,
+  .info-details {
+    position: relative;
+    z-index: 1;
+    min-height: 0;
+  }
+
+  /* ВОССТАНОВЛЯЕМ внутренний скролл у табов (как в Галерее) */
   .tab-content-scrollable {
-    overflow: visible;
+    flex: 1 1 auto;
+    overflow-y: auto;                      /* <-- internal scrolling */
+    -webkit-overflow-scrolling: touch;     /* smooth native scrolling on iOS */
     padding-right: 0;
+    max-height: calc(85vh - var(--modal-bar-height) - (var(--modal-pad) * 2));
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  .tab-content-scrollable::-webkit-scrollbar { display: none; }
 
-  /* так как шапка в потоке и sticky, доп. отступ сверху не нужен */
-  .tab-content-area { padding-top: 0; }
-
+  /* гарантируем, что кнопка закрытия всегда выше */
   .close-button, .close-btn {
-    /* остаётся абсолютной относительно .modal-content и больше не «плавает»,
-       так как скролл теперь у .modal-content */
     top: calc(var(--modal-pad) + (var(--modal-bar-height) - 40px) / 2);
     right: var(--modal-pad);
+    z-index: 4500;
   }
 }
 
@@ -383,6 +396,8 @@ a:hover { color: var(--accent-2); }
   .close-button, .close-btn {
     width: 36px;
     height: 36px;
+    /* на очень мелких: держим кнопку близко к верху */
+    top: var(--modal-pad);
   }
 }
 
@@ -410,6 +425,13 @@ a:hover { color: var(--accent-2); }
 }
 @media (max-width: 560px) {
   .modal-subtitle { display: none; }
+  /* Показываем полное название — разрешаем перенос, убираем обрезание */
+  .modal-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.2;
+  }
 }
 
 .modal-tabs {
@@ -446,6 +468,7 @@ a:hover { color: var(--accent-2); }
   .tab-button svg { width: 22px; height: 22px; }
 }
 
+/* тело модалки — обёртка для внутреннего скролла */
 .tab-content-area {
   flex: 1 1 auto;
   min-height: 0;
@@ -454,9 +477,11 @@ a:hover { color: var(--accent-2); }
   z-index: 1;
 }
 
+/* default behaviour for desktop/tablet: inner scroll also works */
 .tab-content-scrollable {
-  flex: 1;
+  flex: 1 1 auto;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding-right: 6px;
   -ms-overflow-style: none;
   scrollbar-width: none;
