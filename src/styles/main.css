@@ -351,19 +351,30 @@ a:hover { color: var(--accent-2); }
     position: sticky;
     top: 0;
     z-index: 1100;
-    background: transparent;
+    /* непрозрачный фон, чтобы контент не просвечивал сквозь заголовок при скролле */
+    background: #0b0d12;
     padding-right: 56px;
     padding-left: var(--modal-pad);
     border-radius: 30px;
   }
 
+  /* единый скроллер — только модалка; внутренний скролл отключаем,
+     чтобы кнопка закрытия не «уезжала» относительно sticky-шапки */
+  .tab-content-scrollable {
+    overflow: visible;
+    padding-right: 0;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* так как шапка в потоке и sticky, доп. отступ сверху не нужен */
+  .tab-content-area { padding-top: 0; }
+
   .close-button, .close-btn {
-    position: absolute;
+    /* остаётся абсолютной относительно .modal-content и больше не «плавает»,
+       так как скролл теперь у .modal-content */
     top: calc(var(--modal-pad) + (var(--modal-bar-height) - 40px) / 2);
     right: var(--modal-pad);
-  }
-  .tab-content-area {
-    padding-top: var(--spacing-sm);
   }
 }
 
@@ -582,6 +593,16 @@ a:hover { color: var(--accent-2); }
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* на телефонах картинка «во всю ширину» внутренней области модалки */
+@media (max-width: 560px) {
+  .menu-image-wrap {
+    width: calc(100% + var(--modal-pad) * 2);
+    margin-left: calc(-1 * var(--modal-pad));
+    margin-right: calc(-1 * var(--modal-pad));
+    border-radius: 0;
+  }
 }
 
 /* ===============================
