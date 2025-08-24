@@ -187,9 +187,8 @@ a:hover { color: var(--accent-2); }
   opacity: 0.98;
 }
 
-/* БОЛЕЕ ВЫСОКИЕ КАРТОЧКИ НА МЕЛКИХ ЭКРАНАХ */
 @media (max-width: 740px) {
-  .venue-card { aspect-ratio: 16 / 9; }
+  .venue-card { aspect-ratio: 12 / 9; }
 }
 
 .card-image {
@@ -256,7 +255,6 @@ a:hover { color: var(--accent-2); }
   color: var(--accent);
 }
 
-/* МЕНЬШЕ ОТСТУПЫ НА МАЛЕНЬКИХ, ЧТОБЫ ТЕКСТ НЕ ВЫЕЗЖАЛ */
 @media (max-width: 480px) {
   .card-content { padding: var(--spacing-md) var(--spacing-md); }
   .card-top { padding-top: var(--spacing-sm); padding-bottom: var(--spacing-sm); }
