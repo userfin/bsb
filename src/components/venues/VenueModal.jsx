@@ -20,6 +20,9 @@ const TABS = {
 export default function VenueModal({ isOpen, onClose, venue }) {
   const backdropRef = useRef(null);
   const [activeTab, setActiveTab] = useState(TABS.INFO);
+  const mapContainerRef = useRef(null);
+  const iframeRef = useRef(null);
+  const loaderRef = useRef(null);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -33,6 +36,135 @@ export default function VenueModal({ isOpen, onClose, venue }) {
   useEffect(() => {
     if (isOpen) setActiveTab(TABS.INFO);
   }, [isOpen]);
+
+  // вставка карты — теперь создаём iframe напрямую для более быстрым рендером
+  useEffect(() => {
+    // требования: есть id конструктора, активная вкладка — info, и контейнер доступен
+    if (!venue?.constructorId || activeTab !== TABS.INFO || !mapContainerRef.current) {
+      // если контейнер есть, но не нужно показывать карту — очистим
+      if (mapContainerRef.current) {
+        mapContainerRef.current.innerHTML = '';
+        iframeRef.current = null;
+        loaderRef.current = null;
+        // сброс inline-стилей, если хотите; оставляем чтобы не дергать визуально
+      }
+      return;
+    }
+
+    const container = mapContainerRef.current;
+
+    // очистка перед вставкой (защита от дублирования)
+    container.innerHTML = '';
+
+    // Применяем inline-стили на контейнере, чтобы гарантировать вид и скругления сразу,
+    // перезаписывая возможные медиа-правила в CSS, которые могли мешать.
+    // Эти значения можно подстраивать; беру привычные 300px высоты.
+    container.style.position = 'relative';
+    container.style.overflow = 'hidden';
+    container.style.borderRadius = '18px';
+    container.style.background = 'transparent';
+    container.style.width = '100%';
+    container.style.height = venue.mapHeight ? String(venue.mapHeight) : '300px';
+
+    // loader overlay — пока iframe не загрузился
+    const loader = document.createElement('div');
+    loader.setAttribute('aria-hidden', 'true');
+    loader.style.position = 'absolute';
+    loader.style.inset = '0';
+    loader.style.display = 'flex';
+    loader.style.alignItems = 'center';
+    loader.style.justifyContent = 'center';
+    loader.style.background = 'linear-gradient(180deg, rgba(2,6,12,0.2), rgba(2,6,12,0.2))';
+    loader.style.backdropFilter = 'blur(2px)';
+    loader.style.zIndex = '5';
+
+    // spinner element
+    const spinner = document.createElement('div');
+    spinner.style.width = '42px';
+    spinner.style.height = '42px';
+    spinner.style.border = '4px solid rgba(255,255,255,0.12)';
+    spinner.style.borderTop = '4px solid rgba(255,255,255,0.85)';
+    spinner.style.borderRadius = '50%';
+    spinner.style.animation = 'map-spinner 1s linear infinite';
+    // minimal keyframes inlined via style tag so spinner works without external CSS changes
+    const styleTag = document.createElement('style');
+    styleTag.textContent = `
+      @keyframes map-spinner {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+      }
+    `;
+    document.head.appendChild(styleTag);
+
+    loader.appendChild(spinner);
+    container.appendChild(loader);
+    loaderRef.current = loader;
+
+    // Создаём iframe с виджетом Яндекса (widget endpoint) — рендерится быстрее и даёт контроль.
+    // Используем widget URL, он поддерживает constructor id.
+    const iframe = document.createElement('iframe');
+    iframeRef.current = iframe;
+    iframe.src = `https://yandex.ru/map-widget/v1/?um=constructor%3A${venue.constructorId}&lang=ru_RU`;
+    iframe.width = '100%';
+    iframe.height = '100%';
+    iframe.loading = 'lazy';
+    iframe.style.display = 'block';
+    iframe.style.border = '0';
+    // задаём borderRadius на iframe, но главное — контейнер с overflow:hidden обеспечивает видимые скругления
+    iframe.style.borderRadius = 'inherit';
+    iframe.style.boxSizing = 'border-box';
+    iframe.setAttribute('aria-label', `Карта: ${venue.location || venue.name || 'локация'}`);
+    iframe.allowFullscreen = true;
+
+    // плавное появление: начиная с прозрачности 0
+    iframe.style.opacity = '0';
+    iframe.style.transition = 'opacity .28s ease';
+
+    // onload — скрываем loader, показываем iframe
+    const onLoad = () => {
+      try {
+        if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+        iframe.style.opacity = '1';
+      } catch (err) {
+        // ignore
+      }
+    };
+
+    iframe.addEventListener('load', onLoad);
+
+    // Вставляем iframe в контейнер
+    container.appendChild(iframe);
+
+    // safety: фоллбек — если iframe не загрузился за 5s, убираем loader чтобы не висел вечно
+    const fallbackTimer = setTimeout(() => {
+      if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+      iframe.style.opacity = '1';
+    }, 5000);
+
+    // cleanup при смене вкладки/venue/размонтировании
+    return () => {
+      clearTimeout(fallbackTimer);
+      iframe.removeEventListener('load', onLoad);
+      // удаляем styleTag, spinner и iframe
+      if (loader && loader.parentNode) {
+        try { loader.parentNode.removeChild(loader); } catch (e) {}
+      }
+      if (iframe && iframe.parentNode) {
+        try { iframe.parentNode.removeChild(iframe); } catch (e) {}
+      }
+      // очистка refs
+      iframeRef.current = null;
+      loaderRef.current = null;
+      // remove injected style tag if still present
+      if (styleTag && styleTag.parentNode) {
+        try { styleTag.parentNode.removeChild(styleTag); } catch (e) {}
+      }
+      // optionally reset container inline styles if you want:
+      // container.style.overflow = '';
+      // container.style.borderRadius = '';
+      // container.style.height = '';
+    };
+  }, [venue, activeTab]);
 
   if (!isOpen || !venue) return null;
 
@@ -122,6 +254,16 @@ export default function VenueModal({ isOpen, onClose, venue }) {
                   </div>
                 )}
 
+                {venue.constructorId && (
+                  <div
+                    ref={mapContainerRef}
+                    className="info-map"
+                    aria-hidden="false"
+                    role="region"
+                    aria-label={`Карта: ${location || name}`}
+                  />
+                )}
+
                 <div className="details-grid">
                   {city && (
                     <div className="detail-item">
@@ -168,6 +310,7 @@ export default function VenueModal({ isOpen, onClose, venue }) {
                     ))}
                   </div>
                 )}
+
               </div>
             </div>
           )}
